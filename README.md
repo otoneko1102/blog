@@ -25,6 +25,10 @@ npm install
 
 ### Images (./routes/assets/img)
 
+```bash
+mkdir ./routes/assets/img
+```
+
 | File name | Recommended size |
 | :-- | :-- |
 | header.png | 1300x280 |
