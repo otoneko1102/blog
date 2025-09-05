@@ -13,6 +13,7 @@
 - [x] 管理者ページ (/a)
 - [x] Web上での記事の編集 (/a/:id)
 - [x] マークダウン
+- [x] PDF Viewer
 - [x] 編集中のプレビュー表示
 - [x] ファイルアップローダー
 - [x] SPA(Single Page Application)対応
