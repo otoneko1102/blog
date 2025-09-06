@@ -1,6 +1,36 @@
 import { marked } from "marked";
+import "xpdf-viewer";
 
-marked.setOptions({
+// marked.setOptions({
+//   breaks: true,
+// });
+
+const underlineExtension = {
+  name: "underline",
+  level: "inline",
+
+  tokenizer(src) {
+    const rule = /^__(.+?)__/;
+    const match = rule.exec(src);
+
+    if (match) {
+      const text = match[1];
+      return {
+        type: "underline",
+        raw: match[0],
+        text: text,
+        tokens: this.lexer.inlineTokens(text),
+      };
+    }
+  },
+
+  renderer(token) {
+    return `<u>${this.parser.parseInline(token.tokens)}</u>`;
+  },
+};
+
+marked.use({
+  extensions: [underlineExtension],
   breaks: true,
 });
 
