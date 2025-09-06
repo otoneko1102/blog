@@ -42,7 +42,7 @@ let beforeUnloadHandler = null;
 let hasUnsavedChanges = false;
 
 const getAuthBody = (body = {}) => {
-  const password = sessionStorage.getItem("adminPassword");
+  const password = localStorage.getItem("adminPassword");
   return { ...body, password };
 };
 
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const checkAuth = async () => {
-  const storedPassword = sessionStorage.getItem("adminPassword");
+  const storedPassword = localStorage.getItem("adminPassword");
   if (!storedPassword) return false;
   try {
     const response = await fetch("/api/login", {
@@ -235,7 +235,7 @@ const handleLogin = async () => {
     body: JSON.stringify({ password }),
   });
   if (response.ok) {
-    sessionStorage.setItem("adminPassword", password);
+    localStorage.setItem("adminPassword", password);
     await router();
   } else {
     loginError.textContent = "パスワードが違います。";
@@ -666,7 +666,7 @@ const setupEditorEvents = async (id) => {
     const formData = new FormData();
     formData.append("file", fileInput.files[0]);
     formData.append("filename", filenameInput.value);
-    formData.append("password", sessionStorage.getItem("adminPassword"));
+    formData.append("password", localStorage.getItem("adminPassword"));
     const response = await fetch(`/api/articles/${id}/files`, {
       method: "POST",
       body: formData,

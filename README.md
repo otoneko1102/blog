@@ -62,6 +62,17 @@ sudo nano .env
 
 ### 2. Exec command
 
+Before building, select the security level.
+
+`./routes/index.html`
+
+```js
+const isStrictSecurity = true; // Default: true
+```
+
+- **true**: Use `sessionStorage` .
+- **false**: Use `localStorage` .
+
 ```bash
 npm run build
 ```
