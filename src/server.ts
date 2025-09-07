@@ -80,7 +80,7 @@ const writeMetadata = async (data: AllMetadata): Promise<void> => {
 const adminAuthMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { password } = req.body;
   if (password === ADMIN_PASSWORD) {
@@ -122,7 +122,7 @@ api.get("/articles", async (req: Request, res: Response) => {
 
   if (view !== "admin") {
     allArticles = allArticles.filter(
-      (article) => article.public && article.createdAt
+      (article) => article.public && article.createdAt,
     ); // 公開済みかつ日付のあるもののみ
   }
   if (searchTerm) {
@@ -130,8 +130,8 @@ api.get("/articles", async (req: Request, res: Response) => {
       (article) =>
         article.title.toLowerCase().includes(searchTerm) ||
         (article.tags || []).some((tag) =>
-          tag.toLowerCase().includes(searchTerm)
-        )
+          tag.toLowerCase().includes(searchTerm),
+        ),
     );
   }
 
@@ -226,7 +226,7 @@ api.post(
 
       if (
         [".jpg", ".jpeg", ".webp", ".bmp", ".tiff", ".png"].includes(
-          originalExt
+          originalExt,
         ) &&
         ![".apng", ".gif"].includes(originalExt)
       ) {
@@ -247,7 +247,7 @@ api.post(
       console.error("File upload processing error:", err);
       res.status(500).json({ message: "サーバー内部でエラーが発生しました。" });
     }
-  }
+  },
 );
 
 // ファイル削除
@@ -270,7 +270,7 @@ api.delete(
         .status(500)
         .json({ message: "ファイルの削除中にエラーが発生しました。" });
     }
-  }
+  },
 );
 
 // 記事作成
@@ -297,7 +297,7 @@ api.post(
     };
     await writeMetadata(metadata);
     res.status(201).json({ id, ...metadata[id] });
-  }
+  },
 );
 
 // 記事保存
@@ -324,7 +324,7 @@ api.put(
       await writeMetadata(metadata);
     }
     res.json({ message: "保存しました。" });
-  }
+  },
 );
 
 // 公開状態
@@ -356,7 +356,7 @@ api.patch(
     } else {
       res.status(404).json({ message: "Article not found." });
     }
-  }
+  },
 );
 
 // メタデータ
@@ -395,7 +395,7 @@ api.put(
       await fs.rename(oldPath, newPath);
     }
     res.json({ message: "設定を更新しました。", newId: newId });
-  }
+  },
 );
 
 // 記事削除
@@ -483,7 +483,7 @@ const serveRssFeed = async (req: Request, res: Response) => {
     .filter((article) => article.public && article.createdAt)
     .sort(
       (a, b) =>
-        new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
+        new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime(),
     );
 
   for (const article of publicArticles) {
@@ -526,5 +526,5 @@ app.get("/feed", serveRssFeed);
 
 // サーバー起動
 app.listen(PORT, () =>
-  console.log(`Server is running on http://localhost:${PORT}`)
+  console.log(`Server is running on http://localhost:${PORT}`),
 );
