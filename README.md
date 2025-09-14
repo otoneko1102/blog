@@ -19,6 +19,7 @@
 - [x] 編集中のプレビュー表示
 - [x] ファイルアップローダー
 - [x] SPA(Single Page Application)対応
+- [x] XSS(Cross Site Scripting)対策
 - [ ] 完全なdevコマンド
 
 ## Required
