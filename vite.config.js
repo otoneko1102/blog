@@ -1,6 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
 import { createMultiHtmlPlugin } from "vite-plugin-multi-html";
-// import { createHtmlPlugin } from "vite-plugin-html";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
