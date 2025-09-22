@@ -18,6 +18,7 @@
 - [x] Web上での記事の編集 (/a/:id)
 - [x] マークダウン
 - [x] LaTeX
+- [x] Syntax Highlight
 - [x] PDF Viewer
 - [x] 編集中のプレビュー表示
 - [x] ファイルアップローダー
