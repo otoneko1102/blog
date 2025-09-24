@@ -19,6 +19,9 @@
 - [x] マークダウン
 - [x] LaTeX
 - [x] Syntax Highlight
+- [x] 画像表示
+- [x] 動画表示
+- [x] 音声表示
 - [x] PDF Viewer
 - [x] 編集中のプレビュー表示
 - [x] ファイルアップローダー
