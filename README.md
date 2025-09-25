@@ -74,10 +74,10 @@ sudo nano .env
 
 Before building, select the security level.
 
-`./routes/index.html`
+`./routes/src/scripts/config.js`
 
 ```js
-const isStrictSecurity = true; // Default: true
+const isStrictSecurity = false; // Default: false
 ```
 
 - **true**: Use `sessionStorage` .
