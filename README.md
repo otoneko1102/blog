@@ -60,7 +60,7 @@ mkdir ./routes/assets/img
 | :-- | :-- |
 | header.png | 1300x280 |
 | icon.png | 48x48 |
-| thumbnil.png | 1024x560 |
+| thumbnail.png | 1024x560 |
 
 ### .env
 
