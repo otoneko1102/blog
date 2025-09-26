@@ -144,5 +144,5 @@ sudo apt install certbot python3-certbot-nginx
 sudo ln -s /etc/nginx/sites-available/example /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
-sudo certbot --nginx -d domainfo.blog -d www.domainfo.blog
+sudo certbot --nginx -d example.com -d www.example.com
 ```
