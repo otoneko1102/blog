@@ -112,16 +112,19 @@ sudo nano /etc/nginx/sites-available/example
 # www --> non-www
 server {
   listen 80;
-  server_name www.example.com;
+  server_name www.example.com; # 実際のドメインに変更
 
   return 301 http://example.com$request_uri;
 }
 
 server {
   listen 80;
-  server_name example.com;
+  server_name example.com; # 実際のドメインに変更
 
   location / {
+    # ファイルサイズ
+    client_max_body_size 50M;
+
     proxy_pass http://localhost:3000; # 実際のポート番号に変更
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
