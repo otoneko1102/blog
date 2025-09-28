@@ -115,6 +115,15 @@ export const initializeUploader = (id) => {
   const uploadBtn = document.getElementById("upload-btn");
   const fileInput = document.getElementById("file-input");
   const filenameInput = document.getElementById("filename-input");
+  const fileNameDisplay = document.getElementById("file-name-display");
+
+  fileInput?.addEventListener("change", () => {
+    if (fileInput.files && fileInput.files.length > 0) {
+      fileNameDisplay.textContent = fileInput.files[0].name;
+    } else {
+      fileNameDisplay.textContent = "選択されていません";
+    }
+  });
 
   uploadBtn?.addEventListener("click", async () => {
     if (!fileInput.files[0]) {
