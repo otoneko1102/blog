@@ -6,7 +6,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const mime = require("mime-types");
 
-const FILES_BASE_PATH = path.join(__dirname, "lib/pages/files");
+const FILES_BASE_PATH = path.join(__dirname, "../lib/pages/files");
 
 async function createManifests() {
   console.log("Migration script started...");
