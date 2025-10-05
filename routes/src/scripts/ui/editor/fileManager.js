@@ -60,7 +60,10 @@ export const renderImageGallery = async (id) => {
           <span class="pdf-icon">PDF</span>
           <span class="pdf-name">${file.name}</span>
         </div>`;
-      } else if (file.type.startsWith("video/")) {
+      } else if (
+        file.type.startsWith("video/") ||
+        file.type.startsWith("application/mp4")
+      ) {
         /*
         thumbnailHtml = `
         <div class="thumbnail" data-filepath="${cleanFilePath}" data-filename="${file.name}" title="${file.name}">
