@@ -22,6 +22,7 @@
 - [x] 404
 - [x] マークダウン
 - [x] LaTeX
+- [x] Graph (Mermaid)
 - [x] Syntax Highlight
 - [x] 画像表示
 - [x] 動画表示
