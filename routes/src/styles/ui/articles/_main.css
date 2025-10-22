@@ -305,6 +305,11 @@ html[data-theme="dark"] .article-delete-btn:hover {
 .view-public h3 {
   font-size: 1.2rem;
 }
+#view hr,
+.view-public hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+}
 #view p,
 .view-public p {
   line-height: 1.8;
