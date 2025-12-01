@@ -10,7 +10,7 @@
   --code-bg-color: #e9ecef;
   --base-font-family: "Noto Sans JP", sans-serif;
   --monospace-font-family:
-    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    "Noto Sans Mono", monospace, "IBM Plex Sans JP", "Noto Sans JP", sans-serif;
   --border-radius: 8px;
 }
 
