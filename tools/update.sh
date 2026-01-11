@@ -83,9 +83,10 @@ echo "Upstream source: $SOURCE_DIR"
 [[ -d "$SOURCE_DIR" ]] || { echo "Upstream source directory not found"; exit 1; }
 
 declare -a DIRS=("src" "routes")
-declare -a FILES=("package.json" "package-lock.json" "vite.config.js")
+declare -a FILES=("vite.config.js")
+declare -a PKG_FILES=("package.json" "package-lock.json")
 
-RSYNC_BASE_ARGS=("-av" "--delete" "--exclude" ".git/" "--exclude" "node_modules/")
+RSYNC_BASE_ARGS=("-av" "--delete" "--exclude" ".git/" "--exclude" "node_modules/" "--exclude" "assets/img/")
 RSYNC_DRY_ARGS=("--dry-run" "--info=NAME,DEL" "--human-readable")
 
 # Backup
@@ -151,6 +152,72 @@ update_file() {
   fi
 }
 
+update_pkg_file() {
+  local fname="$1"
+  local upstream_file="$SOURCE_DIR/$fname"
+  local local_file="$ROOT_DIR/$fname"
+
+  if [[ ! -f "$upstream_file" ]]; then
+    echo "[skip] upstream file missing: $fname"
+    return 0
+  fi
+
+  # Extract current local name field(s)
+  local local_name=""
+  local local_pkg_name=""
+  if [[ -f "$local_file" ]]; then
+    if command -v jq >/dev/null 2>&1; then
+      local_name=$(jq -r '.name' "$local_file" 2>/dev/null || echo "")
+      # For package-lock.json, also get packages[""].name
+      if [[ "$fname" == "package-lock.json" ]]; then
+        local_pkg_name=$(jq -r '.packages[""].name' "$local_file" 2>/dev/null || echo "")
+      fi
+    else
+      # Fallback: use grep/sed
+      local_name=$(grep -oP '^\s*"name"\s*:\s*"\K[^"]+' "$local_file" 2>/dev/null | head -1 || echo "")
+    fi
+  fi
+
+  if $DO_DRY_RUN; then
+    echo "[dry-run] comparing file: $fname (preserving name field)"
+    if [[ -f "$local_file" ]]; then
+      diff -u "$local_file" "$upstream_file" || true
+      if [[ -n "$local_name" ]]; then
+        echo "(note: local name '$local_name' will be preserved)"
+      fi
+    else
+      echo "(new) $fname will be added"
+    fi
+  else
+    echo "[apply] updating file: $fname (preserving name field)"
+    install -m 0644 "$upstream_file" "$local_file"
+    
+    # Restore local name if it exists
+    if [[ -n "$local_name" ]]; then
+      if command -v jq >/dev/null 2>&1; then
+        # Use jq to update name field(s)
+        if [[ "$fname" == "package-lock.json" && -n "$local_pkg_name" ]]; then
+          # Update both .name and .packages[""].name
+          jq --arg name "$local_name" --arg pkgname "$local_pkg_name" \
+             '.name = $name | .packages[""].name = $pkgname' \
+             "$local_file" > "$local_file.tmp"
+          mv "$local_file.tmp" "$local_file"
+          echo "  -> Restored local name: $local_name (root and packages[\"\"])"
+        else
+          # Update only .name
+          jq --arg name "$local_name" '.name = $name' "$local_file" > "$local_file.tmp"
+          mv "$local_file.tmp" "$local_file"
+          echo "  -> Restored local name: $local_name"
+        fi
+      else
+        # Fallback: use sed (only handles first occurrence)
+        sed -i "0,/\"name\"[[:space:]]*:[[:space:]]*\"[^\"]*\"/s//\"name\": \"$local_name\"/" "$local_file"
+        echo "  -> Restored local name: $local_name"
+      fi
+    fi
+  fi
+}
+
 # Process directories
 for d in "${DIRS[@]}"; do
   update_dir "$d"
@@ -159,6 +226,11 @@ done
 # Process files
 for f in "${FILES[@]}"; do
   update_file "$f"
+done
+
+# Process package files (preserving name field)
+for f in "${PKG_FILES[@]}"; do
+  update_pkg_file "$f"
 done
 
 if ! $DO_DRY_RUN && $DO_INSTALL; then
