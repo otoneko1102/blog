@@ -1,6 +1,7 @@
 import { contentArea } from "../../state.js";
 import { parseMarkdown, runMermaid } from "../../utils/markdown.js";
 import { renderNotFoundView } from "../global/errorViews.js";
+import { BackToListLink } from "../../../components/index.js";
 import Prism from "prismjs";
 
 export const renderPublicView = async (id) => {
@@ -24,7 +25,7 @@ export const renderPublicView = async (id) => {
     );
 
     contentArea.innerHTML = `
-      <a href="/" class="back-to-list-link">&larr; 記事一覧に戻る</a>
+      ${BackToListLink("public")}
       <div class="view-public">${htmlContent}</div>
     `;
     await runMermaid();

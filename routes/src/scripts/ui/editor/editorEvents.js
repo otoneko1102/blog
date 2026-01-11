@@ -1,6 +1,7 @@
 import { state, setState } from "../../state.js";
 import { getAuthBody } from "../../auth.js";
 import router from "../../router.js";
+import { EditorActionButtons } from "../../../components/index.js";
 
 const handleSettings = async (oldId, oldTitle) => {
   const newId = prompt(
@@ -38,41 +39,12 @@ export const initializeCoreEditorEvents = (id, articleData, getTags) => {
   let currentArticle = { ...articleData };
 
   const updateButtons = () => {
-    const publicButtonText = currentArticle.public
-      ? "非公開にする"
-      : "公開する";
-    const hiddenButtonText = currentArticle.hidden ? "表示する" : "非表示する";
-    const pinnedButtonText = currentArticle.pinned
-      ? "ピン止め解除"
-      : "ピン止めする";
-    const currentDate = currentArticle.createdAt
-      ? new Date(currentArticle.createdAt).toISOString().split("T")[0]
-      : "";
-    actionsDiv.innerHTML = `
-      <div class="buttons">
-        <button id="save-btn" class="button">保存</button>
-        <button id="settings-btn" class="button">記事設定</button>
-        <div class="buttons-block">
-          <button id="toggle-public-btn" class="button ${currentArticle.public ? "public" : "private"}">
-            ${publicButtonText}
-          </button>
-          <br />
-          <button id="toggle-hidden-btn" class="button ${currentArticle.hidden ? "hidden" : "visible"}">
-            ${hiddenButtonText}
-          </button>
-          <br />
-          <button id="toggle-pinned-btn" class="button ${currentArticle.pinned ? "pinned" : "unpinned"}">
-            ${pinnedButtonText}
-          </button>
-        </div>
-      </div>
-      <br />
-      <div class="date-editor">
-        <h4>投稿日を編集</h4>
-        <input type="date" id="date-input" value="${currentDate}" />
-        <button id="update-date-btn" class="button">更新</button>
-      </div>
-    `;
+    actionsDiv.innerHTML = EditorActionButtons({
+      isPublic: currentArticle.public,
+      isHidden: currentArticle.hidden,
+      isPinned: currentArticle.pinned,
+      createdAt: currentArticle.createdAt,
+    });
 
     document.getElementById("save-btn").addEventListener("click", async (e) => {
       if (state.isSaving) return;

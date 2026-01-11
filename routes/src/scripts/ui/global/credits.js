@@ -1,4 +1,5 @@
 import { contentArea } from "../../state.js";
+import { ExternalLink } from "../../../components/index.js";
 
 export const renderCreditsView = async () => {
   try {
@@ -15,7 +16,10 @@ export const renderCreditsView = async () => {
       return packages
         .map(
           (pkg) =>
-            `<li><a href="https://www.npmjs.com/package/${pkg}" target="_blank" rel="noopener noreferrer">${pkg}</a></li>`,
+            `<li>${ExternalLink({
+              href: `https://www.npmjs.com/package/${pkg}`,
+              text: pkg,
+            })}</li>`,
         )
         .join("");
     };
@@ -45,7 +49,10 @@ export const renderCreditsView = async () => {
           <h2>Assets</h2>
           <p>ページ内のボタンのアイコンなどに使用されているアセットです。</p>
           <ul>
-            <li><a href="https://fonts.google.com/icons" target="_blank" rel="noopener noreferrer">Material Symbols and Icons - Google Fonts</a></li>
+            <li>${ExternalLink({
+              href: "https://fonts.google.com/icons",
+              text: "Material Symbols and Icons - Google Fonts",
+            })}</li>
           </ul>
         </section>
 
@@ -53,10 +60,10 @@ export const renderCreditsView = async () => {
           <h2>Licenses</h2>
           <p>このプロジェクトで使用されている主なオープンソースライセンスです。</p>
           <ul>
-            <li><a href="https://opensource.org/license/MIT" target="_blank" rel="noopener noreferrer">The MIT License</a></li>
-            <li><a href="https://opensource.org/license/apache-2-0" target="_blank" rel="noopener noreferrer">Apache License, Version 2.0</a></li>
-            <li><a href="https://opensource.org/license/gpl-3-0" target="_blank" rel="noopener noreferrer">GNU General Public License version 3</a></li>
-            <li><a href="https://opensource.org/license/BSD-2-Clause" target="_blank" rel="noopener noreferrer">The 2-Clause BSD License</a></li>
+            <li>${ExternalLink({ href: "https://opensource.org/license/MIT", text: "The MIT License" })}</li>
+            <li>${ExternalLink({ href: "https://opensource.org/license/apache-2-0", text: "Apache License, Version 2.0" })}</li>
+            <li>${ExternalLink({ href: "https://opensource.org/license/gpl-3-0", text: "GNU General Public License version 3" })}</li>
+            <li>${ExternalLink({ href: "https://opensource.org/license/BSD-2-Clause", text: "The 2-Clause BSD License" })}</li>
           </ul>
         </section>
       </div>
