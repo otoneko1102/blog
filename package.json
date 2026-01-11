@@ -14,7 +14,7 @@
     "dev:client": "vite",
     "dev": "npm run dev:server && npm run dev:client",
     "restart": "sh ./tools/restart.sh",
-    "fetch": "sh ./tools/update.sh"
+    "fetch": "bash ./tools/update.sh"
   },
   "keywords": [],
   "author": "",
